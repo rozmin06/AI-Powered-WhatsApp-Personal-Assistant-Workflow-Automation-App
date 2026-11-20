@@ -1,0 +1,162 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R] /Count 2 >>
+endobj
+5 0 obj
+<< /Length 5315 >>
+stream
+0.60 0.68 0.65 rg
+BT /F1 8.5 Tf 48 28 Td (WaFlow AI - App Documentation & Feature Specification   |   Page 1) Tj ET
+0.031 0.188 0.153 rg 0.00 688.00 612.00 104.00 re f
+0.204 0.827 0.600 rg 0.00 684.00 612.00 4.00 re f
+1.000 1.000 1.000 rg BT /F2 24 Tf 48.00 746.00 Td (WaFlow AI) Tj ET
+0.961 0.769 0.318 rg BT /F1 11.5 Tf 48.00 722.00 Td (AI-Powered WhatsApp Personal Assistant & Workflow Automation App) Tj ET
+0.780 0.900 0.860 rg BT /F1 9.5 Tf 48.00 704.00 Td (Android Application Overview  |  Gemini 3.8 Flash + Firebase Firestore) Tj ET
+0.945 0.980 0.965 rg 48.00 560.00 516.00 108.00 re f
+0.90 w 0.650 0.850 0.780 RG 48.00 560.00 516.00 108.00 re S
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 650.00 Td (Application Name:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 650.00 Td (WaFlow AI \(Android / Jetpack Compose\)) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 632.00 Td (Package ID:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 632.00 Td (com.aistudio.waflowai.k9m4px) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 614.00 Td (AI Model:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 614.00 Td (Gemini 3.8 Flash via Firebase AI Logic \(App Check protected\)) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 596.00 Td (Cloud Persistence:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 596.00 Td (Cloud Firestore \(Enterprise named DB\) + Google Sign-In) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 578.00 Td (Debug APK Output:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 578.00 Td (app/build/outputs/apk/debug/app-debug.apk \(29 MB\)) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 538.00 Td (1. Executive Summary) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 533.00 m 564.00 533.00 l S
+0.140 0.180 0.160 rg BT /F1 10.2 Tf 48.00 516.00 Td (WaFlow AI is an executive personal assistant Android application built to automate daily) Tj ET
+0.140 0.180 0.160 rg BT /F1 10.2 Tf 48.00 501.60 Td (communication, scheduling, web form workflows, and multi-step operational tasks. Every AI response,) Tj ET
+0.140 0.180 0.160 rg BT /F1 10.2 Tf 48.00 487.20 Td (draft, and workflow plan is strictly grounded in your company's uploaded documents, rules, SOPs, and) Tj ET
+0.140 0.180 0.160 rg BT /F1 10.2 Tf 48.00 472.80 Td (tone guidelines.) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 449.40 Td (2. Core Capabilities Provided by This App) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 444.40 m 564.00 444.40 l S
+0.016 0.424 0.306 rg 51.00 429.90 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 427.40 Td (WhatsApp Assistant & Multi-Step Orchestrator) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 412.90 Td (Accepts natural-language instructions or pasted WhatsApp messages, grounds decisions in active) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 399.10 Td (company rules, generates a ready-to-send WhatsApp reply, builds a 3-6 step interactive checklist,) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 385.30 Td (and automatically queues linked email drafts, meetings, or browser form plans.) Tj ET
+0.016 0.424 0.306 rg 51.00 370.00 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 367.50 Td (Email Management & AI Triage) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 353.00 Td (Analyzes incoming email threads or short instructions, classifies priority \(HIGH, NORMAL, LOW\),) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 339.20 Td (drafts policy-compliant replies, supports inline editing, and launches directly into your device) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 325.40 Td (email client \(mailto: ACTION_SENDTO intent\).) Tj ET
+0.016 0.424 0.306 rg 51.00 310.10 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 307.60 Td (Intelligent Meeting Scheduling) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 293.10 Td (Extracts meeting title, participants, start time \(yyyy-MM-dd HH:mm\), duration, and agenda while) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 279.30 Td (checking existing Firestore meetings to prevent schedule conflicts. Supports Confirm/Cancel states) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 265.50 Td (and one-tap Add to Device Calendar \(CalendarContract.Events\).) Tj ET
+0.016 0.424 0.306 rg 51.00 250.20 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 247.70 Td (Browser Automation & Form Filling) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 233.20 Td (Converts target URLs and goals into structured key=value field mappings plus an exportable Python) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 219.40 Td (Playwright \(sync_api\) script. Includes a built-in interactive WebView Form Runner that injects) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 205.60 Td (JavaScript to locate matching input, textarea, and select elements and populate them live.) Tj ET
+0.016 0.424 0.306 rg 51.00 190.30 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 187.80 Td (Company Knowledge Brain & Training) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 173.30 Td (Provides full CRUD for company Policies, SOPs, FAQs, Templates, and Rules with per-document) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 159.50 Td (active/inactive toggles. Supports zero-permission file import \(.txt, .md, .csv, .json via Storage) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 145.70 Td (Access Framework\) and streaming Gemini Q&A.) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 5893 >>
+stream
+0.60 0.68 0.65 rg
+BT /F1 8.5 Tf 48 28 Td (WaFlow AI - App Documentation & Feature Specification   |   Page 2) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 738.00 Td (3. WhatsApp Integration Modes) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 733.00 m 564.00 733.00 l S
+0.016 0.424 0.306 rg 51.00 718.50 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 716.00 Td (Device WhatsApp Handoff \(Zero Setup\)) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 701.50 Td (Works immediately out of the box using Android wa.me deep-linking and ACTION_SEND share intents to) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 687.70 Td (open the drafted assistant response directly inside WhatsApp for the target contact.) Tj ET
+0.016 0.424 0.306 rg 51.00 672.40 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 669.90 Td (Meta WhatsApp Business Cloud API Bridge) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 655.40 Td (Includes a live Cloud API dispatcher in the WhatsApp & Settings tab. By entering a Meta Phone) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 641.60 Td (Number ID and Graph Bearer Token, the app dispatches real HTTPS POST requests to) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 627.80 Td (graph.facebook.com/v21.0 via OkHttp.) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 604.00 Td (4. Security, Privacy & Cloud Architecture) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 599.00 m 564.00 599.00 l S
+0.016 0.424 0.306 rg 51.00 584.50 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 582.00 Td (Google Sign-In Authentication) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 567.50 Td (Uses Jetpack Credential Manager \(GetSignInWithGoogleOption\) with silent startup auto sign-in and) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 553.70 Td (interactive fallback. All user workspaces and Firestore listeners are strictly gated behind an) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 539.90 Td (authenticated UID.) Tj ET
+0.016 0.424 0.306 rg 51.00 524.60 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 522.10 Td (Zero-Trust Firestore Security Rules) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 507.60 Td (All data is isolated under /users/{userId}/... subcollections \(knowledge_docs, workflows,) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 493.80 Td (email_drafts, meetings, browser_tasks\). Security rules enforce schema validation, string length) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 480.00 Td (limits, server timestamps, immutable createdAt/userId fields, and terminal state locking.) Tj ET
+0.016 0.424 0.306 rg 51.00 464.70 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 462.20 Td (Firebase App Check) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 447.70 Td (Configured in MainActivity.onCreate\(\) prior to UI rendering and ViewModels, protecting Gemini 3.8) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 433.90 Td (Flash calls via DebugAppCheckProviderFactory in debug builds and RecaptchaAppCheckProviderFactory) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 420.10 Td (in release.) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 396.30 Td (5. Technology Stack & Design System) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 391.30 m 564.00 391.30 l S
+0.016 0.424 0.306 rg 51.00 376.80 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 374.30 Td (UI & Navigation) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 359.80 Td (Jetpack Compose, Material Design 3, adaptive NavigationBar / NavigationRail, Edge-to-Edge insets.) Tj ET
+0.016 0.424 0.306 rg 51.00 344.50 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 342.00 Td (Typography & Visuals) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 327.50 Td (Custom Emerald Obsidian & Warm Gold palette; bundled Space Grotesk, Plus Jakarta Sans, and) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 313.70 Td (JetBrains Mono fonts; custom adaptive launcher icon.) Tj ET
+0.016 0.424 0.306 rg 51.00 298.40 4.50 4.50 re f
+0.030 0.160 0.120 rg BT /F2 10.2 Tf 62.00 295.90 Td (AI & Networking) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 281.40 Td (Firebase AI Logic \(gemini-3.8-flash, structured Schema.obj JSON + generateContentStream\), OkHttp) Tj ET
+0.180 0.220 0.200 rg BT /F1 9.8 Tf 62.00 267.60 Td (4.) Tj ET
+0.016 0.424 0.306 rg BT /F2 14 Tf 48.00 243.80 Td (6. Build, APK & Verification Summary) Tj ET
+1.20 w 0.204 0.827 0.600 RG 48.00 238.80 m 564.00 238.80 l S
+0.945 0.980 0.965 rg 48.00 121.80 516.00 108.00 re f
+0.90 w 0.650 0.850 0.780 RG 48.00 121.80 516.00 108.00 re S
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 211.80 Td (Debug APK Path:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 211.80 Td (app/build/outputs/apk/debug/app-debug.apk) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 193.80 Td (AI Studio Export:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 193.80 Td (Settings Menu -> Generate APK / AAB or Export ZIP) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 175.80 Td (Rules Verification:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 175.80 Td (5/5 tests passed in firestore.test.js \(Firestore Emulator\)) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 157.80 Td (Kotlin & Unit Tests:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 157.80 Td (compileDebugKotlin + testDebugUnitTest \(Robolectric\) PASSED) Tj ET
+0.016 0.424 0.306 rg BT /F2 9.5 Tf 60.00 139.80 Td (Full APK Build:) Tj ET
+0.100 0.140 0.130 rg BT /F1 9.5 Tf 193.00 139.80 Td (compile_applet BUILD SUCCEEDED) Tj ET
+0.250 0.300 0.280 rg BT /F1 9.5 Tf 48.00 105.80 Td (Note on APK Download: In Google AI Studio, open the project Settings menu to generate and download the) Tj ET
+0.250 0.300 0.280 rg BT /F1 9.5 Tf 48.00 92.10 Td (installable APK or release AAB directly, or export the project ZIP which includes) Tj ET
+0.250 0.300 0.280 rg BT /F1 9.5 Tf 48.00 78.40 Td (app/build/outputs/apk/debug/app-debug.apk and this documentation PDF \(WaFlow_AI_App_Overview.pdf\).) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R /F3 3 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000085 00000 n 
+0000000160 00000 n 
+0000000228 00000 n 
+0000000291 00000 n 
+0000005658 00000 n 
+0000005804 00000 n 
+0000011749 00000 n 
+0000011895 00000 n 
+trailer
+<< /Size 10 /Root 9 0 R >>
+startxref
+11944
+%%EOF

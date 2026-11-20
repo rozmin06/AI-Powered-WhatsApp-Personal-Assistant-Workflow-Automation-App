@@ -1,0 +1,418 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Assistant configuration and company identity for the authenticated user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Company or workspace name."
+        },
+        "assistantPersona": {
+          "type": "string",
+          "description": "Custom instructions and tone for the WhatsApp assistant."
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "description": "Default WhatsApp recipient or business phone number."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on last update (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "companyName",
+        "assistantPersona",
+        "whatsappNumber",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "KnowledgeDoc": {
+      "title": "KnowledgeDoc",
+      "description": "Company document, rule, SOP, FAQ, or template used to ground AI assistant actions.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID."
+        },
+        "title": {
+          "type": "string",
+          "description": "Document title."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["POLICY", "SOP", "FAQ", "TEMPLATE", "RULE"],
+          "description": "Knowledge document category."
+        },
+        "content": {
+          "type": "string",
+          "description": "Full text content of the company document or rule."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this document is actively included in AI grounding."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Up to 10 short topic tags."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on update."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "category",
+        "content",
+        "enabled",
+        "tags",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WorkflowRun": {
+      "title": "WorkflowRun",
+      "description": "Multi-step AI assistant execution from a WhatsApp or direct command.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID."
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Original user or incoming WhatsApp prompt."
+        },
+        "channel": {
+          "type": "string",
+          "enum": ["WHATSAPP", "EMAIL", "MEETING", "BROWSER", "RESEARCH"],
+          "description": "Primary automation channel."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PLANNED", "IN_PROGRESS", "COMPLETED", "FAILED"],
+          "description": "Current workflow execution status."
+        },
+        "whatsappReply": {
+          "type": "string",
+          "description": "Drafted WhatsApp response grounded in company knowledge."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Research or execution outcome summary."
+        },
+        "steps": {
+          "type": "array",
+          "description": "Ordered multi-step task items."
+        },
+        "completedStepCount": {
+          "type": "integer",
+          "description": "Number of completed steps."
+        },
+        "targetContact": {
+          "type": "string",
+          "description": "Optional WhatsApp contact name or phone."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on update."
+        }
+      },
+      "required": [
+        "userId",
+        "prompt",
+        "channel",
+        "status",
+        "whatsappReply",
+        "summary",
+        "steps",
+        "completedStepCount",
+        "targetContact",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "EmailDraft": {
+      "title": "EmailDraft",
+      "description": "AI-triaged email summary and policy-grounded reply draft.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID."
+        },
+        "recipient": {
+          "type": "string",
+          "description": "Recipient email address."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Email subject line."
+        },
+        "body": {
+          "type": "string",
+          "description": "Email body content."
+        },
+        "incomingContext": {
+          "type": "string",
+          "description": "Incoming email thread or context."
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["HIGH", "NORMAL", "LOW"],
+          "description": "Triage priority."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["TRIAGED", "DRAFTED", "SENT"],
+          "description": "Draft lifecycle status."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on update."
+        }
+      },
+      "required": [
+        "userId",
+        "recipient",
+        "subject",
+        "body",
+        "incomingContext",
+        "priority",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MeetingItem": {
+      "title": "MeetingItem",
+      "description": "Scheduled or proposed meeting extracted by the AI assistant.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID."
+        },
+        "title": {
+          "type": "string",
+          "description": "Meeting title."
+        },
+        "participants": {
+          "type": "string",
+          "description": "Comma-separated participant names or emails."
+        },
+        "startTimeIso": {
+          "type": "string",
+          "description": "Readable date-time string (yyyy-MM-dd HH:mm)."
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "description": "Meeting duration in minutes."
+        },
+        "agenda": {
+          "type": "string",
+          "description": "Meeting agenda and notes."
+        },
+        "meetingLink": {
+          "type": "string",
+          "description": "Optional video call URL."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PROPOSED", "CONFIRMED", "CANCELLED"],
+          "description": "Meeting lifecycle status."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on update."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "participants",
+        "startTimeIso",
+        "durationMinutes",
+        "agenda",
+        "meetingLink",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BrowserTask": {
+      "title": "BrowserTask",
+      "description": "Browser automation and form-filling plan with field mappings and Python Playwright script.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID."
+        },
+        "title": {
+          "type": "string",
+          "description": "Automation task title."
+        },
+        "targetUrl": {
+          "type": "string",
+          "description": "Target web page or form URL."
+        },
+        "instructions": {
+          "type": "string",
+          "description": "Form filling or scraping instructions."
+        },
+        "fieldMappings": {
+          "type": "array",
+          "description": "Key=Value form field mappings."
+        },
+        "pythonScript": {
+          "type": "string",
+          "description": "Generated Python Playwright automation script."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["READY", "EXECUTED"],
+          "description": "Execution status."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp on update."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "targetUrl",
+        "instructions",
+        "fieldMappings",
+        "pythonScript",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WebhookLog": {
+      "title": "WebhookLog",
+      "description": "Real-time WhatsApp incoming and outbound webhook triage log entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner user UID." },
+        "sourcePlatform": { "type": "string", "enum": ["META_CLOUD", "N8N", "MAKE", "NODE_PYTHON", "APP"] },
+        "direction": { "type": "string", "enum": ["INCOMING", "OUTBOUND"] },
+        "eventType": { "type": "string", "description": "Webhook event type or endpoint event." },
+        "sender": { "type": "string", "description": "WhatsApp sender or target recipient." },
+        "messageBody": { "type": "string", "description": "Incoming WhatsApp text or event summary." },
+        "triageStatus": { "type": "string", "enum": ["RECEIVED", "TRIAGING", "TRIAGED", "REPLIED", "FAILED"] },
+        "priority": { "type": "string", "enum": ["HIGH", "NORMAL", "LOW"] },
+        "triageSummary": { "type": "string", "description": "Gemini AI triage classification and summary." },
+        "suggestedReply": { "type": "string", "description": "Policy-grounded WhatsApp reply draft." },
+        "httpStatusCode": { "type": "integer", "description": "HTTP response status code." },
+        "latencyMs": { "type": "integer", "description": "Processing/webhook round-trip latency in ms." },
+        "rawPayload": { "type": "string", "description": "Raw JSON webhook payload snippet." },
+        "errorMessage": { "type": "string", "description": "Optional failure diagnostic." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": [
+        "userId",
+        "sourcePlatform",
+        "direction",
+        "eventType",
+        "sender",
+        "messageBody",
+        "triageStatus",
+        "priority",
+        "triageSummary",
+        "suggestedReply",
+        "httpStatusCode",
+        "latencyMs",
+        "rawPayload",
+        "errorMessage",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User workspace profile and assistant persona configuration."
+    },
+    "/users/{userId}/knowledge_docs/{docId}": {
+      "schema": { "$ref": "#/entities/KnowledgeDoc" },
+      "description": "Company documents, rules, SOPs, FAQs, and templates owned by the user."
+    },
+    "/users/{userId}/workflows/{workflowId}": {
+      "schema": { "$ref": "#/entities/WorkflowRun" },
+      "description": "Multi-step WhatsApp and research workflow runs."
+    },
+    "/users/{userId}/email_drafts/{draftId}": {
+      "schema": { "$ref": "#/entities/EmailDraft" },
+      "description": "Email triage items and policy-grounded drafts."
+    },
+    "/users/{userId}/meetings/{meetingId}": {
+      "schema": { "$ref": "#/entities/MeetingItem" },
+      "description": "Scheduled and proposed meetings."
+    },
+    "/users/{userId}/browser_tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/BrowserTask" },
+      "description": "Browser automation and form-filling tasks."
+    },
+    "/users/{userId}/webhook_logs/{logId}": {
+      "schema": { "$ref": "#/entities/WebhookLog" },
+      "description": "Real-time WhatsApp incoming and outbound webhook triage logs."
+    }
+  }
+}

@@ -1,0 +1,315 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- GLOBAL HARDENED PRIMITIVES ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidTimestamp(ts) {
+      return ts is timestamp && ts <= request.time;
+    }
+
+    function isStringList(val, maxItems) {
+      return val is list && val.size() <= maxItems && (val.size() == 0 || val[0] is string);
+    }
+
+    // --- VALIDATION HELPERS ---
+    function isValidUserProfile(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 80 &&
+             data.companyName is string && data.companyName.size() <= 100 &&
+             data.assistantPersona is string && data.assistantPersona.size() <= 500 &&
+             data.whatsappNumber is string && data.whatsappNumber.size() <= 30;
+    }
+
+    function isValidKnowledgeDoc(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 120 &&
+             data.category in ['POLICY', 'SOP', 'FAQ', 'TEMPLATE', 'RULE'] &&
+             data.content is string && data.content.size() >= 1 && data.content.size() <= 15000 &&
+             data.enabled is bool &&
+             isStringList(data.tags, 10);
+    }
+
+    function isValidWorkflowRun(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.prompt is string && data.prompt.size() >= 1 && data.prompt.size() <= 2000 &&
+             data.channel in ['WHATSAPP', 'EMAIL', 'MEETING', 'BROWSER', 'RESEARCH'] &&
+             data.status in ['PLANNED', 'IN_PROGRESS', 'COMPLETED', 'FAILED'] &&
+             data.whatsappReply is string && data.whatsappReply.size() <= 4000 &&
+             data.summary is string && data.summary.size() <= 4000 &&
+             isStringList(data.steps, 20) &&
+             data.completedStepCount is int && data.completedStepCount >= 0 && data.completedStepCount <= 20 &&
+             data.targetContact is string && data.targetContact.size() <= 120;
+    }
+
+    function isValidEmailDraft(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.recipient is string && data.recipient.size() <= 160 &&
+             data.subject is string && data.subject.size() >= 1 && data.subject.size() <= 200 &&
+             data.body is string && data.body.size() >= 1 && data.body.size() <= 10000 &&
+             data.incomingContext is string && data.incomingContext.size() <= 4000 &&
+             data.priority in ['HIGH', 'NORMAL', 'LOW'] &&
+             data.status in ['TRIAGED', 'DRAFTED', 'SENT'];
+    }
+
+    function isValidMeetingItem(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 160 &&
+             data.participants is string && data.participants.size() <= 500 &&
+             data.startTimeIso is string && data.startTimeIso.size() >= 1 && data.startTimeIso.size() <= 40 &&
+             data.durationMinutes is int && data.durationMinutes >= 5 && data.durationMinutes <= 480 &&
+             data.agenda is string && data.agenda.size() <= 2000 &&
+             data.meetingLink is string && data.meetingLink.size() <= 300 &&
+             data.status in ['PROPOSED', 'CONFIRMED', 'CANCELLED'];
+    }
+
+    function isValidBrowserTask(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 160 &&
+             data.targetUrl is string && data.targetUrl.size() >= 1 && data.targetUrl.size() <= 500 &&
+             data.instructions is string && data.instructions.size() >= 1 && data.instructions.size() <= 2000 &&
+             isStringList(data.fieldMappings, 25) &&
+             data.pythonScript is string && data.pythonScript.size() <= 8000 &&
+             data.status in ['READY', 'EXECUTED'];
+    }
+
+    function isValidWebhookLog(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.sourcePlatform in ['META_CLOUD', 'N8N', 'MAKE', 'NODE_PYTHON', 'APP'] &&
+             data.direction in ['INCOMING', 'OUTBOUND'] &&
+             data.eventType is string && data.eventType.size() >= 1 && data.eventType.size() <= 80 &&
+             data.sender is string && data.sender.size() <= 120 &&
+             data.messageBody is string && data.messageBody.size() <= 4000 &&
+             data.triageStatus in ['RECEIVED', 'TRIAGING', 'TRIAGED', 'REPLIED', 'FAILED'] &&
+             data.priority in ['HIGH', 'NORMAL', 'LOW'] &&
+             data.triageSummary is string && data.triageSummary.size() <= 1500 &&
+             data.suggestedReply is string && data.suggestedReply.size() <= 2500 &&
+             data.httpStatusCode is int && data.httpStatusCode >= 0 && data.httpStatusCode <= 999 &&
+             data.latencyMs is int && data.latencyMs >= 0 && data.latencyMs <= 600000 &&
+             data.rawPayload is string && data.rawPayload.size() <= 8000 &&
+             data.errorMessage is string && data.errorMessage.size() <= 1000;
+    }
+
+    // --- COLLECTION RULES ---
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if false;
+
+      allow create: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       incoming().keys().hasAll(['userId', 'displayName', 'companyName', 'assistantPersona', 'whatsappNumber', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'displayName', 'companyName', 'assistantPersona', 'whatsappNumber', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidUserProfile(incoming(), userId);
+
+      allow update: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       isValidUserProfile(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'companyName', 'assistantPersona', 'whatsappNumber', 'updatedAt']);
+
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      match /knowledge_docs/{docId} {
+        allow get: if isOwner(userId) && isValidId(docId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(docId) &&
+                         incoming().keys().hasAll(['userId', 'title', 'category', 'content', 'enabled', 'tags', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'title', 'category', 'content', 'enabled', 'tags', 'createdAt', 'updatedAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidKnowledgeDoc(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(docId) &&
+                         isValidKnowledgeDoc(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['enabled', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'content', 'enabled', 'tags', 'updatedAt'])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(docId);
+      }
+
+      match /workflows/{workflowId} {
+        allow get: if isOwner(userId) && isValidId(workflowId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(workflowId) &&
+                         incoming().keys().hasAll(['userId', 'prompt', 'channel', 'status', 'whatsappReply', 'summary', 'steps', 'completedStepCount', 'targetContact', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'prompt', 'channel', 'status', 'whatsappReply', 'summary', 'steps', 'completedStepCount', 'targetContact', 'createdAt', 'updatedAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidWorkflowRun(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(workflowId) &&
+                         isValidWorkflowRun(incoming(), userId) &&
+                         existing().status != 'COMPLETED' &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'steps', 'completedStepCount', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'whatsappReply', 'summary', 'steps', 'completedStepCount', 'updatedAt'])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(workflowId);
+      }
+
+      match /email_drafts/{draftId} {
+        allow get: if isOwner(userId) && isValidId(draftId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(draftId) &&
+                         incoming().keys().hasAll(['userId', 'recipient', 'subject', 'body', 'incomingContext', 'priority', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'recipient', 'subject', 'body', 'incomingContext', 'priority', 'status', 'createdAt', 'updatedAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidEmailDraft(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(draftId) &&
+                         isValidEmailDraft(incoming(), userId) &&
+                         existing().status != 'SENT' &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly(['recipient', 'subject', 'body', 'priority', 'status', 'updatedAt'])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(draftId);
+      }
+
+      match /meetings/{meetingId} {
+        allow get: if isOwner(userId) && isValidId(meetingId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(meetingId) &&
+                         incoming().keys().hasAll(['userId', 'title', 'participants', 'startTimeIso', 'durationMinutes', 'agenda', 'meetingLink', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'title', 'participants', 'startTimeIso', 'durationMinutes', 'agenda', 'meetingLink', 'status', 'createdAt', 'updatedAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidMeetingItem(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(meetingId) &&
+                         isValidMeetingItem(incoming(), userId) &&
+                         existing().status != 'CANCELLED' &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly(['title', 'participants', 'startTimeIso', 'durationMinutes', 'agenda', 'meetingLink', 'status', 'updatedAt'])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(meetingId);
+      }
+
+      match /browser_tasks/{taskId} {
+        allow get: if isOwner(userId) && isValidId(taskId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(taskId) &&
+                         incoming().keys().hasAll(['userId', 'title', 'targetUrl', 'instructions', 'fieldMappings', 'pythonScript', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'title', 'targetUrl', 'instructions', 'fieldMappings', 'pythonScript', 'status', 'createdAt', 'updatedAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidBrowserTask(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(taskId) &&
+                         isValidBrowserTask(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly(['title', 'targetUrl', 'instructions', 'fieldMappings', 'pythonScript', 'status', 'updatedAt'])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(taskId);
+      }
+
+      match /webhook_logs/{logId} {
+        allow get: if isOwner(userId) && isValidId(logId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId) &&
+                         isValidId(logId) &&
+                         incoming().keys().hasAll([
+                           'userId', 'sourcePlatform', 'direction', 'eventType', 'sender',
+                           'messageBody', 'triageStatus', 'priority', 'triageSummary',
+                           'suggestedReply', 'httpStatusCode', 'latencyMs', 'rawPayload',
+                           'errorMessage', 'createdAt', 'updatedAt'
+                         ]) &&
+                         incoming().keys().hasOnly([
+                           'userId', 'sourcePlatform', 'direction', 'eventType', 'sender',
+                           'messageBody', 'triageStatus', 'priority', 'triageSummary',
+                           'suggestedReply', 'httpStatusCode', 'latencyMs', 'rawPayload',
+                           'errorMessage', 'createdAt', 'updatedAt'
+                         ]) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         isValidWebhookLog(incoming(), userId);
+
+        allow update: if isOwner(userId) &&
+                         isValidId(logId) &&
+                         isValidWebhookLog(incoming(), userId) &&
+                         existing().triageStatus != 'REPLIED' &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         isValidTimestamp(incoming().updatedAt) &&
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['triageStatus', 'updatedAt']) ||
+                           incoming().diff(existing()).affectedKeys().hasOnly([
+                             'triageStatus', 'priority', 'triageSummary', 'suggestedReply',
+                             'httpStatusCode', 'latencyMs', 'errorMessage', 'updatedAt'
+                           ])
+                         );
+
+        allow delete: if isOwner(userId) && isValidId(logId);
+      }
+    }
+  }
+}

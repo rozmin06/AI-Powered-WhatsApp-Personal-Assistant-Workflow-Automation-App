@@ -1,0 +1,6 @@
+{
+  "name": "WaFlow AI",
+  "description": "AI-powered WhatsApp personal assistant for workflow automation, email triage, meeting scheduling, web research, and company knowledge orchestration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
